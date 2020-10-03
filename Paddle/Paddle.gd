@@ -30,7 +30,9 @@ func _physics_process(_delta):
 	position.x += s*t
 
 	if HUD.paddle_stretch:
-		pass
+		var w = 1 + (distort.x * p)
+		var h = 1 - (1/distort.y * p)
+		change_size(w,h)
 
 
 
@@ -38,12 +40,13 @@ func change_size(w, h):
 	$Color.rect_scale = Vector2(w, h)
 	$CollisionShape2D.set_scale(Vector2(collision_transform.x*w, collision_transform.y*h))
 
-
 func start_paddle():
 	if HUD.paddle_appear:
-		pass
-	else:
-		pass
+		var target_pos = position
+		var appear_duration = 2.0
+		position.y = -100
+		$Tween.interpolate_property(self, "position", position, target_pos, appear_duration, Tween.TRANS_ELASTIC, Tween.EASE_IN_OUT)
+		$Tween.start()
 
 
 
